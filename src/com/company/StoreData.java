@@ -113,6 +113,7 @@ public class StoreData {
                 addDataSQL = "INSERT INTO " + REP_TABLE_NAME + "(" + REPNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + COMMISSION_COLUMN + ", " + RATE_COLUMN + ")" + " VALUES ('Tian Hui', '1785 Tyler Ave', 'Northfield', 'CA','90098', 100.00, 0.06)";
                 statement.executeUpdate(addDataSQL);
                 addDataSQL = "INSERT INTO " + REP_TABLE_NAME + "(" + REPNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + COMMISSION_COLUMN + ", " + RATE_COLUMN + ")" + " VALUES ('Sefton Janet', '267 Oakley st', 'Congaree', 'CA','90097', 0.00, 0.06)";
+                statement.executeUpdate(addDataSQL);
             }
             return true;
 
