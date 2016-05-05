@@ -100,7 +100,7 @@ public class StoreData {
             if (!movieTableExists()) {
 
                 //Create a table in the database with 3 columns: Movie title, year and rating
-                String createTableSQL = "CREATE TABLE " + REP_TABLE_NAME + " (" + PK_COLUMN + " int NOT NULL AUTO_INCREMENT, " + REPNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + COMMISSION_COLUMN + "double," + RATE_COLUMN + "double, PRIMARY KEY(" + PK_COLUMN + "))";
+                String createTableSQL = "CREATE TABLE " + REP_TABLE_NAME + " (" + PK_COLUMN + " int NOT NULL AUTO_INCREMENT, " + REPNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + COMMISSION_COLUMN + " double, " + RATE_COLUMN + " double, PRIMARY KEY(" + PK_COLUMN + "))";
                 System.out.println(createTableSQL);
                 statement.executeUpdate(createTableSQL);
 
