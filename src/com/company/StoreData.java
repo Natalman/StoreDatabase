@@ -97,7 +97,7 @@ public class StoreData {
             statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
             //Does the table exist? If not, create it.
-            if (!movieTableExists()) {
+            if (!TableExists()) {
 
                 //Create a table in the database with 3 columns: Movie title, year and rating
                 String createTableSQL = "CREATE TABLE " + REP_TABLE_NAME + " (" + PK_COLUMN + " int NOT NULL AUTO_INCREMENT, " + REPNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + COMMISSION_COLUMN + " double, " + RATE_COLUMN + " double, PRIMARY KEY(" + PK_COLUMN + "))";
@@ -124,7 +124,7 @@ public class StoreData {
         }
     }
 
-    private static boolean movieTableExists() throws SQLException {
+    private static boolean TableExists() throws SQLException {
 
         String checkTablePresentQuery = "SHOW TABLES LIKE '" + REP_TABLE_NAME + "'";   //Can query the database schema
         ResultSet tablesRS = statement.executeQuery(checkTablePresentQuery);
