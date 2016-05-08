@@ -1,5 +1,7 @@
 package com.company;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
+
 import java.sql.*;
 
 public class StoreData {
@@ -53,6 +55,9 @@ public class StoreData {
     public final static double MAX_RATING = 0.09;
 
     private static StoreModel storeModel;
+    private static CustModel custmodel;
+    private static ItemModel itemModel;
+    private static OrderModel orderModel;
 
     public static void main(String args[]) {
 
@@ -71,7 +76,7 @@ public class StoreData {
 
     }
 
-    //Create or recreate a ResultSet containing the whole database, and give it to storemodel
+    //Create or recreate a ResultSet containing the whole database, and give it to storemodel, custModel, itemModel, and orderModel
     public static boolean loadAllRep(){
 
         try{
@@ -80,15 +85,31 @@ public class StoreData {
                 rs.close();
             }
 
+            //Geting data from tables
             String getAllData = "SELECT * FROM " + REP_TABLE_NAME;
-            rs = statement.executeQuery(getAllData);
+            String getCust = "SELECT * FROM " + CUSTOMER_TABLE;
+            String getItem = "SELECT * FROM " + ITEM_TABLE;
+            String getOrder = "SELECT * FROM " + ORDER_TABLE;
 
-            if (storeModel == null) {
-                //If no current movieDataModel, then make one
+            //Creating a statement for them
+            rs = statement.executeQuery(getAllData);
+            rs = statement.executeQuery(getCust);
+            rs = statement.executeQuery(getItem);
+            rs = statement.executeQuery(getOrder);
+
+
+            if (storeModel == null || custmodel == null || itemModel == null || orderModel == null) {
+                //If no current dataSet, It then create them
                 storeModel = new StoreModel(rs);
+                custmodel = new CustModel(rs);
+                itemModel = new ItemModel(rs);
+                orderModel = new OrderModel(rs);
             } else {
-                //Or, if one already exists, update its ResultSet
+                //Or, if they already exist, update their ResultSets.
                 storeModel.updateResultSet(rs);
+                custmodel.updateResultSetCust(rs);
+                itemModel.updateResultSetItem(rs);
+                orderModel.updateResultSetOrder(rs);
             }
 
             return true;
@@ -139,68 +160,68 @@ public class StoreData {
                 statement.executeUpdate(addDataSQL);
 
                 //Creating a customer table
-                createTableSQL = "CREATE TABLE " + CUSTOMER_TABLE + " (" + CU_PK + " int NOT NULL AUTO_INCREMENT, " + CUSTNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + BALANCE_COLUMN + " double, PRIMARY KEY(" + CU_PK + "))";
-                System.out.println(createTableSQL);
-                statement.executeUpdate(createTableSQL);
+                String createCustTable = "CREATE TABLE " + CUSTOMER_TABLE + " (" + CU_PK + " int NOT NULL AUTO_INCREMENT, " + CUSTNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + BALANCE_COLUMN + " double," + PK_COLUMN + " int, PRIMARY KEY(" + CU_PK + "), FOREIGN KEY (" + PK_COLUMN + ") REFERENCES " + REP_TABLE_NAME + ")";
+                System.out.println(createCustTable);
+                statement.executeUpdate(createCustTable);
 
-                addDataSQL = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Joel Wilson', '28 lakeson St.', 'Fullton', 'CA','90085', 500.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Ron King', '452 Columbus Dr.', 'Grove', 'CA','90092', 700.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('John willbow', '342 Magee St.', 'Congaree', 'CA','90097', 800.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Gerry Coldwell', '124 Main St.', 'Mesa', 'CA','900104', 200.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Anita Blink', '3456 Central Ave.', 'Fullton', 'CA','90125', 900.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Steven Young', '12 Rising Sun Ave', 'Almondon', 'CA','90104', 500.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Andrea Karldrim', '382 Wildwood Ave', 'Northfield', 'CA','90078', 1000.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Gloria VenKkolm', '945 Gilham St.', 'Mesa', 'CA','90045', 10.00)";
-                statement.executeUpdate(addDataSQL);
+                String addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Joel Wilson', '28 lakeson St.', 'Fullton', 'CA','90085', 500.00)";
+                statement.executeUpdate(addToCust);
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Ron King', '452 Columbus Dr.', 'Grove', 'CA','90092', 700.00)";
+                statement.executeUpdate(addToCust);
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('John willbow', '342 Magee St.', 'Congaree', 'CA','90097', 800.00)";
+                statement.executeUpdate(addToCust);
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Gerry Coldwell', '124 Main St.', 'Mesa', 'CA','900104', 200.00)";
+                statement.executeUpdate(addToCust);
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Anita Blink', '3456 Central Ave.', 'Fullton', 'CA','90125', 900.00)";
+                statement.executeUpdate(addToCust);
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Steven Young', '12 Rising Sun Ave', 'Almondon', 'CA','90104', 500.00)";
+                statement.executeUpdate(addToCust);
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Andrea Karldrim', '382 Wildwood Ave', 'Northfield', 'CA','90078', 1000.00)";
+                statement.executeUpdate(addToCust);
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Gloria VenKkolm', '945 Gilham St.', 'Mesa', 'CA','90045', 10.00)";
+                statement.executeUpdate(addToCust);
 
 
                 //Creating an Item Table
-                createTableSQL = "CREATE TABLE " + ITEM_TABLE + " (" + ITEM_PK + " int NOT NULL AUTO_INCREMENT, " + DESC_COLUMN + " varchar(50), " + ONHAND_COLUMN + " int, " + CATEGORY_COLUMN + " varchar(10)," + PRICE_COLUMN + " double, PRIMARY KEY(" + ITEM_PK + "))";
-                System.out.println(createTableSQL);
-                statement.executeUpdate(createTableSQL);
+                String createItemTable = "CREATE TABLE " + ITEM_TABLE + " (" + ITEM_PK + " int NOT NULL AUTO_INCREMENT, " + DESC_COLUMN + " varchar(50), " + ONHAND_COLUMN + " int, " + CATEGORY_COLUMN + " varchar(10)," + PRICE_COLUMN + " double, PRIMARY KEY(" + ITEM_PK + "))";
+                System.out.println(createItemTable);
+                statement.executeUpdate(createItemTable);
 
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('XBOX ONE', 20, 'Console', 350.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('XBOX 360', 5, 'Console', 150.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('PS4', 10, 'Console', 300.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('PS3', 3, 'Console', 99.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('Wii', 15, 'Console', 200.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('FIFA 16', 30, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('FORZA 5', 10, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('DESTINY', 10, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('GTA V', 5, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('DIVISION', 35, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('RAINBOW SIEGE', 10, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('ZELDA', 3, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('HITMAN', 6, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('HALO', 8, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
-                addDataSQL = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('MORTAL KOMBAT X', 3, 'CD Game', 59.00)";
-                statement.executeUpdate(addDataSQL);
+                String addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('XBOX ONE', 20, 'Console', 350.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('XBOX 360', 5, 'Console', 150.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('PS4', 10, 'Console', 300.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('PS3', 3, 'Console', 99.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('Wii', 15, 'Console', 200.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('FIFA 16', 30, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('FORZA 5', 10, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('DESTINY', 10, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('GTA V', 5, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('DIVISION', 35, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('RAINBOW SIEGE', 10, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('ZELDA', 3, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('HITMAN', 6, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('HALO', 8, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
+                addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('MORTAL KOMBAT X', 3, 'CD Game', 59.00)";
+                statement.executeUpdate(addToItem);
 
                 //Creating Order table
-                createTableSQL = "CREATE TABLE " + ORDER_TABLE + " (" + OD_PK + " int NOT NULL AUTO_INCREMENT, " + DATE_COLUMN + " varchar(50), " + NUM_ORDERED_COLUMN + " int, " + TOTAL_COLUMN + " double, PRIMARY KEY(" + OD_PK + "))";
-                System.out.println(createTableSQL);
-                statement.executeUpdate(createTableSQL);
+                String createOrderTable = "CREATE TABLE " + ORDER_TABLE + " (" + OD_PK + " int NOT NULL AUTO_INCREMENT, " + ITEM_PK + " int," + DATE_COLUMN + " varchar(50), " + NUM_ORDERED_COLUMN + " int, " + CU_PK + " int," + TOTAL_COLUMN + " double, PRIMARY KEY(" + OD_PK + "),FOREIGN KEY (" + ITEM_PK + ") REFERENCES " + ITEM_TABLE + ", FOREIGN KEY (" + CU_PK + ") REFERENCES " + CUSTOMER_TABLE + ")";
+                System.out.println(createOrderTable);
+                statement.executeUpdate(createOrderTable);
 
             }
             return true;

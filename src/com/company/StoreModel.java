@@ -145,7 +145,7 @@ public class StoreModel extends AbstractTableModel {
     }
 
     //returns true if successful, false if error occurs
-    public boolean insertRow(String repName, String Street, String City, String State, String PostalCode, double Comminssion, double rate) {
+    public boolean insertRow(String repName, String Street, String City, String State, String PostalCode, double Commission, double rate) {
 
         try {
             //Move to insert row, insert the appropriate data in each column, insert the row, move cursor back to where it was before we started
@@ -155,7 +155,7 @@ public class StoreModel extends AbstractTableModel {
             resultSet.updateString(StoreData.CITY_COLUMN, City);
             resultSet.updateString(StoreData.STATE_COLUMN, State);
             resultSet.updateString(StoreData.POSTALCODE_COLUMN, PostalCode);
-            resultSet.updateDouble(StoreData.COMMISSION_COLUMN, Comminssion);
+            resultSet.updateDouble(StoreData.COMMISSION_COLUMN, Commission);
             resultSet.updateDouble(StoreData.RATE_COLUMN, rate);
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
@@ -172,8 +172,7 @@ public class StoreModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int col){
-        //Get from ResultSet metadata, which contains the database column names
-        //TODO translate DB column names into something nicer for display, so "YEAR_RELEASED" becomes "Year Released"
+
         try {
             return resultSet.getMetaData().getColumnName(col + 1);
         } catch (SQLException se) {
