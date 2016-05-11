@@ -26,7 +26,7 @@ public class OrderForm extends JFrame implements WindowListener{
 
         setContentPane(rootPanel);
         pack();
-        setTitle(" Rep Table");
+        setTitle(" Order Table");
         addWindowListener(this);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

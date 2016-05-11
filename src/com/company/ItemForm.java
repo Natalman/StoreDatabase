@@ -26,7 +26,7 @@ public class ItemForm extends JFrame implements WindowListener{
 
         setContentPane(rootPanel);
         pack();
-        setTitle(" Rep Table");
+        setTitle(" Item Table");
         addWindowListener(this);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

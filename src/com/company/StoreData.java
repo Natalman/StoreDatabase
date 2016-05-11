@@ -54,6 +54,44 @@ public class StoreData {
     public final static double MIN_RATING = 0.01;
     public final static double MAX_RATING = 0.09;
 
+    public static StoreModel getStoreModel() {
+        return storeModel;
+    }
+
+    public static void setStoreModel(StoreModel storeModel) {
+        StoreData.storeModel = storeModel;
+    }
+
+
+
+    public static CustModel getCustmodel() {
+        return custmodel;
+    }
+
+    public static void setCustmodel(CustModel custmodel) {
+        StoreData.custmodel = custmodel;
+    }
+
+
+
+    public static ItemModel getItemModel() {
+        return itemModel;
+    }
+
+    public static void setItemModel(ItemModel itemModel) {
+        StoreData.itemModel = itemModel;
+    }
+
+
+
+    public static OrderModel getOrderModel() {
+        return orderModel;
+    }
+
+    public static void setOrderModel(OrderModel orderModel) {
+        StoreData.orderModel = orderModel;
+    }
+
     private static StoreModel storeModel;
     private static CustModel custmodel;
     private static ItemModel itemModel;
@@ -72,7 +110,7 @@ public class StoreData {
         }
 
         //If no errors, then start GUI
-        RepForm tableGUI = new RepForm(storeModel);
+        ControlTable tableGUI = new ControlTable();
 
     }
 
@@ -98,7 +136,7 @@ public class StoreData {
             rs = statement.executeQuery(getOrder);
 
 
-            if (storeModel == null || custmodel == null || itemModel == null || orderModel == null) {
+            if (storeModel == null && custmodel == null && itemModel == null && orderModel == null) {
                 //If no current dataSet, It then create them
                 storeModel = new StoreModel(rs);
                 custmodel = new CustModel(rs);
@@ -160,25 +198,25 @@ public class StoreData {
                 statement.executeUpdate(addDataSQL);
 
                 //Creating a customer table
-                String createCustTable = "CREATE TABLE " + CUSTOMER_TABLE + " (" + CU_PK + " int NOT NULL AUTO_INCREMENT, " + CUSTNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + BALANCE_COLUMN + " double," + PK_COLUMN + " int, PRIMARY KEY(" + CU_PK + "), FOREIGN KEY (" + PK_COLUMN + ") REFERENCES " + REP_TABLE_NAME + ")";
+                String createCustTable = "CREATE TABLE " + CUSTOMER_TABLE + " (" + CU_PK + " int NOT NULL AUTO_INCREMENT, " + CUSTNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + BALANCE_COLUMN + " double," + PK_COLUMN + " int, PRIMARY KEY(" + CU_PK + "))";
                 System.out.println(createCustTable);
                 statement.executeUpdate(createCustTable);
 
-                String addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Joel Wilson', '28 lakeson St.', 'Fullton', 'CA','90085', 500.00,1)";
+                String addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ", " + PK_COLUMN + ")" + " VALUES ('Joel Wilson', '28 lakeson St.', 'Fullton', 'CA','90085', 500.00,1)";
                 statement.executeUpdate(addToCust);
-                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Ron King', '452 Columbus Dr.', 'Grove', 'CA','90092', 700.00,2)";
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ", " + PK_COLUMN + ")" + " VALUES ('Ron King', '452 Columbus Dr.', 'Grove', 'CA','90092', 700.00,2)";
                 statement.executeUpdate(addToCust);
-                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('John willbow', '342 Magee St.', 'Congaree', 'CA','90097', 800.00,3)";
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ", " + PK_COLUMN + ")" + " VALUES ('John willbow', '342 Magee St.', 'Congaree', 'CA','90097', 800.00,3)";
                 statement.executeUpdate(addToCust);
-                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Gerry Coldwell', '124 Main St.', 'Mesa', 'CA','900104', 200.00,3)";
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ", " + PK_COLUMN + ")" + " VALUES ('Gerry Coldwell', '124 Main St.', 'Mesa', 'CA','900104', 200.00,3)";
                 statement.executeUpdate(addToCust);
-                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Anita Blink', '3456 Central Ave.', 'Fullton', 'CA','90125', 900.00,2)";
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ", " + PK_COLUMN + ")" + " VALUES ('Anita Blink', '3456 Central Ave.', 'Fullton', 'CA','90125', 900.00,2)";
                 statement.executeUpdate(addToCust);
-                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Steven Young', '12 Rising Sun Ave', 'Almondon', 'CA','90104', 500.00,2)";
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ", " + PK_COLUMN + ")" + " VALUES ('Steven Young', '12 Rising Sun Ave', 'Almondon', 'CA','90104', 500.00,2)";
                 statement.executeUpdate(addToCust);
-                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Andrea Karldrim', '382 Wildwood Ave', 'Northfield', 'CA','90078', 1000.00,1)";
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ", " + PK_COLUMN + ")" + " VALUES ('Andrea Karldrim', '382 Wildwood Ave', 'Northfield', 'CA','90078', 1000.00,1)";
                 statement.executeUpdate(addToCust);
-                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTOMER_TABLE + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ")" + " VALUES ('Gloria VenKkolm', '945 Gilham St.', 'Mesa', 'CA','90045', 10.00,1)";
+                addToCust = "INSERT INTO " + CUSTOMER_TABLE + "(" + CUSTNAME_COLUMN + ", " + STREET_COLUMN + ", " + CITY_COLUMN + ", " + STATE_COLUMN + ", " + POSTALCODE_COLUMN + ", " + BALANCE_COLUMN + ", " + PK_COLUMN + ")" + " VALUES ('Gloria VenKkolm', '945 Gilham St.', 'Mesa', 'CA','90045', 10.00,1)";
                 statement.executeUpdate(addToCust);
 
 
@@ -219,7 +257,7 @@ public class StoreData {
                 statement.executeUpdate(addToItem);
 
                 //Creating Order table
-                String createOrderTable = "CREATE TABLE " + ORDER_TABLE + " (" + OD_PK + " int NOT NULL AUTO_INCREMENT, " + ITEM_PK + " int," + DATE_COLUMN + " varchar(50), " + NUM_ORDERED_COLUMN + " int, " + CU_PK + " int," + TOTAL_COLUMN + " double, PRIMARY KEY(" + OD_PK + "),FOREIGN KEY (" + ITEM_PK + ") REFERENCES " + ITEM_TABLE + ", FOREIGN KEY (" + CU_PK + ") REFERENCES " + CUSTOMER_TABLE + ")";
+                String createOrderTable = "CREATE TABLE " + ORDER_TABLE + " (" + OD_PK + " int NOT NULL AUTO_INCREMENT, " + ITEM_PK + " int," + DATE_COLUMN + " varchar(50), " + NUM_ORDERED_COLUMN + " int, " + CU_PK + " int," + TOTAL_COLUMN + " double, PRIMARY KEY(" + OD_PK + "))";
                 System.out.println(createOrderTable);
                 statement.executeUpdate(createOrderTable);
 
@@ -236,7 +274,6 @@ public class StoreData {
     private static boolean TableExists() throws SQLException {
 
         String checkTablePresentQuery = "SHOW TABLES LIKE '" + REP_TABLE_NAME + CUSTOMER_TABLE + ITEM_TABLE + ORDER_TABLE +"'"; //Can query the database schema
-
 
         ResultSet tablesRS = statement.executeQuery(checkTablePresentQuery);
 

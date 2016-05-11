@@ -28,7 +28,7 @@ public class CustForm extends JFrame implements WindowListener{
 
         setContentPane(rootPanel);
         pack();
-        setTitle(" Rep Table");
+        setTitle(" Customer Table");
         addWindowListener(this);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
