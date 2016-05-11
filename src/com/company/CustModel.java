@@ -106,7 +106,7 @@ public class CustModel extends AbstractTableModel {
     }
 
     //returns true if successful, false if error occurs
-    public boolean insertRow(String CustName, String Street, String City, String State, String PostalCode, double Balance) {
+    public boolean insertRow(String CustName, String Street, String City, String State, String PostalCode, double Balance, int RepNum) {
 
         try {
             //Move to insert row, insert the appropriate data in each column, insert the row, move cursor back to where it was before we started
@@ -117,6 +117,7 @@ public class CustModel extends AbstractTableModel {
             resultSetCust.updateString(StoreData.STATE_COLUMN, State);
             resultSetCust.updateString(StoreData.POSTALCODE_COLUMN, PostalCode);
             resultSetCust.updateDouble(StoreData.BALANCE_COLUMN, Balance);
+            resultSetCust.updateInt(StoreData.PK_COLUMN, RepNum);
             resultSetCust.insertRow();
             resultSetCust.moveToCurrentRow();
             fireTableDataChanged();

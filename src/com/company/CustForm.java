@@ -8,23 +8,23 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 /**
- * Created by TheKingNat on 5/4/16.
+ * Created by TheKingNat on 5/10/16.
  */
-public class RepForm extends JFrame implements WindowListener{
-    private JTable Reptable;
-    private JTextField NameTextField;
+public class CustForm extends JFrame implements WindowListener{
+    private JTable CustTable;
+    private JPanel rootPanel;
+    private JTextField CustNamTextField;
     private JTextField StreetTextField;
     private JTextField CityTextField;
     private JTextField StateTextField;
     private JTextField PostalCodeTextField;
-    private JTextField CommissionTextField;
-    private JTextField RateTextField;
-    private JButton addNewRepButton;
-    private JButton deleteRepButton;
+    private JTextField BalanceTextField;
+    private JButton addCustomerButton;
+    private JButton deleteCustomerButton;
     private JButton quitButton;
-    private JPanel rootPanel;
+    private JTextField RepNumTextField;
 
-    RepForm(final StoreModel DataTableModel){
+    CustForm(final CustModel DataTableModel){
 
         setContentPane(rootPanel);
         pack();
@@ -35,17 +35,17 @@ public class RepForm extends JFrame implements WindowListener{
 
 
         //Set up JTable
-        Reptable.setGridColor(Color.BLACK);
-        Reptable.setModel(DataTableModel);
+        CustTable.setGridColor(Color.BLACK);
+        CustTable.setModel(DataTableModel);
 
 
         //Event handlers for add, delete and quit buttons
-        addNewRepButton.addActionListener(new ActionListener() {
+        addCustomerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 //Get Movie title, make sure it's not blank
-                String NameData = NameTextField.getText();
+                String NameData = CustNamTextField.getText();
 
                 if (NameData == null || NameData.trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter the name of the rep");
@@ -75,21 +75,21 @@ public class RepForm extends JFrame implements WindowListener{
                     JOptionPane.showMessageDialog(rootPane, "Please enter the postal code");
                     return;
                 }
-                double CommissionData = Double.parseDouble(CommissionTextField.getText());
+                double BalanceData = Double.parseDouble(BalanceTextField.getText());
 
-                if (CommissionData ==0 ) {
-                    JOptionPane.showMessageDialog(rootPane, "Please enter the commission");
+                if (BalanceData ==0 ) {
+                    JOptionPane.showMessageDialog(rootPane, "Please enter the Balance");
                     return;
                 }
-                double RateData = Double.parseDouble(RateTextField.getText());
+                int RepNum = Integer.parseInt(RepNumTextField.getText());
 
-                if (RateData ==0 ) {
-                    JOptionPane.showMessageDialog(rootPane, "Please enter the Rate");
+                if (RepNum == 0 ) {
+                    JOptionPane.showMessageDialog(rootPane, "Please enter the Rep Num");
                     return;
                 }
 
-                System.out.println("Adding " + NameData + " " + StreetData + " " + CityData + " " + StateData + " " + PostalCodeData + " " + CommissionData + " " + RateData);
-                boolean insertedRow = DataTableModel.insertRow(NameData, StreetData, CityData, StateData, PostalCodeData, CommissionData, RateData);
+                System.out.println("Adding " + NameData + " " + StreetData + " " + CityData + " " + StateData + " " + PostalCodeData + " " + BalanceData + " " + RepNum);
+                boolean insertedRow = DataTableModel.insertRow(NameData, StreetData, CityData, StateData, PostalCodeData, BalanceData,RepNum);
 
                 if (!insertedRow) {
                     JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
@@ -108,19 +108,19 @@ public class RepForm extends JFrame implements WindowListener{
             }
         });
 
-        deleteRepButton.addActionListener(new ActionListener() {
+        deleteCustomerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int currentRow = Reptable.getSelectedRow();
+                int currentRow = CustTable.getSelectedRow();
 
                 if (currentRow == -1) {      // -1 means no row is selected. Display error message.
                     JOptionPane.showMessageDialog(rootPane, "Please choose a Rep to delete");
                 }
-                boolean deleted = DataTableModel.deleteRow(currentRow);
+                boolean deleted = DataTableModel.deleteCust(currentRow);
                 if (deleted) {
                     StoreData.loadAllRep();
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "Error deleting Rep");
+                    JOptionPane.showMessageDialog(rootPane, "Error deleting Customer Record");
                 }
             }
         });
@@ -153,4 +153,3 @@ public class RepForm extends JFrame implements WindowListener{
     public void windowDeactivated(WindowEvent e) {}
 
 }
-

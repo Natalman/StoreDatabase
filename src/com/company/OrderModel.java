@@ -105,17 +105,18 @@ public class OrderModel extends AbstractTableModel {
     }
 
     //returns true if successful, false if error occurs
-    public boolean insertRow(String Desc, int OnHand, String Category, double price) {
+    public boolean insertRow(int ItemNum, String Date, int NumOrder, int CustNum, double total) {
 
         try {
             //Move to insert row, insert the appropriate data in each column, insert the row, move cursor back to where it was before we started
             resultSetOrder.moveToInsertRow();
-            //resultSetOrder.updateString(StoreData.DESC_COLUMN, Desc);
-            //resultSetOrder.updateInt(StoreData.ONHAND_COLUMN, OnHand);
-            //resultSetOrder.updateString(StoreData.CATEGORY_COLUMN, Category);
-            //resultSetOrder.updateDouble(StoreData.PRICE_COLUMN, price);
-            //resultSetOrder.insertRow();
-            //resultSetOrder.moveToCurrentRow();
+            resultSetOrder.updateInt(StoreData.ITEM_PK, ItemNum);
+            resultSetOrder.updateString(StoreData.DATE_COLUMN, Date);
+            resultSetOrder.updateInt(StoreData.NUM_ORDERED_COLUMN, NumOrder);
+            resultSetOrder.updateInt(StoreData.CU_PK, CustNum);
+            resultSetOrder.updateDouble(StoreData.TOTAL_COLUMN, total);
+            resultSetOrder.insertRow();
+            resultSetOrder.moveToCurrentRow();
             fireTableDataChanged();
             return true;
 
