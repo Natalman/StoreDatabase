@@ -103,8 +103,7 @@ public class RepForm extends JFrame implements WindowListener{
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StoreData.shutdown();
-                System.exit(0);   //Should probably be a call back to Main class so all the System.exit(0) calls are in one place.
+                closeWindow();
             }
         });
 
@@ -125,6 +124,10 @@ public class RepForm extends JFrame implements WindowListener{
             }
         });
     }
+    //This is use so that when we close the window it does not close the whole application but only this window
+    public void closeWindow() {
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }
 
     //windowListener methods. Only need one of them, but are required to implement the others anyway
     //WindowClosing will call DB shutdown code, which is important, so the DB is in a consistent state however the application is closed.
@@ -132,7 +135,8 @@ public class RepForm extends JFrame implements WindowListener{
     @Override
     public void windowClosing(WindowEvent e) {
         System.out.println("closing");
-        StoreData.shutdown();}
+        StoreData.shutdown();
+    }
 
     @Override
     public void windowClosed(WindowEvent e) {}

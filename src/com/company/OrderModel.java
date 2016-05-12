@@ -1,6 +1,7 @@
 package com.company;
 
 import javax.swing.table.AbstractTableModel;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -100,13 +101,13 @@ public class OrderModel extends AbstractTableModel {
     }
 
     //returns true if successful, false if error occurs
-    public boolean insertRow(int ItemNum, String Date, int NumOrder, int CustNum, double total) {
+    public boolean insertRow(int ItemNum, Date Date, int NumOrder, int CustNum, double total) {
 
         try {
             //Move to insert row, insert the appropriate data in each column, insert the row, move cursor back to where it was before we started
             resultSetOrder.moveToInsertRow();
             resultSetOrder.updateInt(StoreData.ITEM_PK, ItemNum);
-            resultSetOrder.updateString(StoreData.DATE_COLUMN, Date);
+            resultSetOrder.updateDate(StoreData.DATE_COLUMN, Date);
             resultSetOrder.updateInt(StoreData.NUM_ORDERED_COLUMN, NumOrder);
             resultSetOrder.updateInt(StoreData.CU_PK, CustNum);
             resultSetOrder.updateDouble(StoreData.TOTAL_COLUMN, total);

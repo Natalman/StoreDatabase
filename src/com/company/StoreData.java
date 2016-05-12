@@ -166,6 +166,7 @@ public class StoreData {
             return false;
         }
 
+
     }
     public static boolean loadItem(){
         try {
@@ -310,8 +311,9 @@ public class StoreData {
                 addToItem = "INSERT INTO " + ITEM_TABLE + "(" + DESC_COLUMN+ ", " + ONHAND_COLUMN + ", " + CATEGORY_COLUMN + ", " + PRICE_COLUMN + ")" + " VALUES ('MORTAL KOMBAT X', 3, 'CD Game', 59.00)";
                 statement.executeUpdate(addToItem);
 
+
                 //Creating Order table
-                String createOrderTable = "CREATE TABLE " + ORDER_TABLE + " (" + OD_PK + " int NOT NULL AUTO_INCREMENT, " + ITEM_PK + " int," + DATE_COLUMN + " varchar(50), " + NUM_ORDERED_COLUMN + " int, " + CU_PK + " int," + TOTAL_COLUMN + " double, PRIMARY KEY(" + OD_PK + "))";
+                String createOrderTable = "CREATE TABLE " + ORDER_TABLE + " (" + OD_PK + " int NOT NULL AUTO_INCREMENT, " + ITEM_PK + " int," + DATE_COLUMN + " DATE , " + NUM_ORDERED_COLUMN + " int, " + CU_PK + " int," + TOTAL_COLUMN + " double, PRIMARY KEY(" + OD_PK + "))";
                 System.out.println(createOrderTable);
                 statement.executeUpdate(createOrderTable);
 

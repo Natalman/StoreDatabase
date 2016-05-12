@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.Date;
 
 /**
  * Created by TheKingNat on 5/10/16.
@@ -42,7 +43,7 @@ public class OrderForm extends JFrame implements WindowListener{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //Get Movie title, make sure it's not blank
+                //Get columns , make sure they are not blank
                 int CustNum = Integer.parseInt(CustomerNumberTextField.getText());
 
                 if (CustNum == 0) {
@@ -55,9 +56,10 @@ public class OrderForm extends JFrame implements WindowListener{
                     JOptionPane.showMessageDialog(rootPane, "Please enter the Item Number");
                     return;
                 }
-                String DateData = DateTextField.getText();
+                SpinnerDateModel OrdDate = new SpinnerDateModel();
+                Date DateData = Date.valueOf(DateTextField.getText());
 
-                if (DateData == null || DateData.trim().equals("")) {
+                if (DateData == null) {
                     JOptionPane.showMessageDialog(rootPane, "Please enter the street");
                     return;
                 }
@@ -89,8 +91,8 @@ public class OrderForm extends JFrame implements WindowListener{
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StoreData.shutdown();
-                System.exit(0);   //Should probably be a call back to Main class so all the System.exit(0) calls are in one place.
+
+                closeWindow();
             }
         });
 
@@ -110,6 +112,10 @@ public class OrderForm extends JFrame implements WindowListener{
                 }
             }
         });
+    }
+    //This is use so that when we close the window it does not close the whole application but only this window
+    public void closeWindow() {
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
     //windowListener methods. Only need one of them, but are required to implement the others anyway
