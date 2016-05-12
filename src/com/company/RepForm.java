@@ -31,7 +31,12 @@ public class RepForm extends JFrame implements WindowListener{
         setTitle(" Rep Table");
         addWindowListener(this);
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        // This makes your whole application quit.
+        // if you don't set this, the default behavior is keep the program running and any other windows open.
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        // Make same change to other forms
 
 
         //Set up JTable
@@ -126,7 +131,8 @@ public class RepForm extends JFrame implements WindowListener{
     }
     //This is use so that when we close the window it does not close the whole application but only this window
     public void closeWindow() {
-        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+       // this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+       // You don't need this
     }
 
     //windowListener methods. Only need one of them, but are required to implement the others anyway
