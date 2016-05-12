@@ -52,43 +52,6 @@ public class StoreData {
     public final static double MIN_RATING = 0.01;
     public final static double MAX_RATING = 0.09;
 
-    public static StoreModel getStoreModel() {
-        return storeModel;
-    }
-
-    public static void setStoreModel(StoreModel storeModel) {
-        StoreData.storeModel = storeModel;
-    }
-
-
-
-    public static CustModel getCustmodel() {
-        return custmodel;
-    }
-
-    public static void setCustmodel(CustModel custmodel) {
-        StoreData.custmodel = custmodel;
-    }
-
-
-
-    public static ItemModel getItemModel() {
-        return itemModel;
-    }
-
-    public static void setItemModel(ItemModel itemModel) {
-        StoreData.itemModel = itemModel;
-    }
-
-
-
-    public static OrderModel getOrderModel() {
-        return orderModel;
-    }
-
-    public static void setOrderModel(OrderModel orderModel) {
-        StoreData.orderModel = orderModel;
-    }
 
     private static StoreModel storeModel;
     private static CustModel custmodel;
@@ -216,6 +179,46 @@ public class StoreData {
     }
 
 
+    public static StoreModel getStoreModel() {
+        return storeModel;
+    }
+
+    public static void setStoreModel(StoreModel storeModel) {
+        StoreData.storeModel = storeModel;
+    }
+
+
+
+    public static CustModel getCustmodel() {
+        return custmodel;
+    }
+
+    public static void setCustmodel(CustModel custmodel) {
+        StoreData.custmodel = custmodel;
+    }
+
+
+
+    public static ItemModel getItemModel() {
+        return itemModel;
+    }
+
+    public static void setItemModel(ItemModel itemModel) {
+        StoreData.itemModel = itemModel;
+    }
+
+
+
+    public static OrderModel getOrderModel() {
+        return orderModel;
+    }
+
+    public static void setOrderModel(OrderModel orderModel) {
+        StoreData.orderModel = orderModel;
+    }
+
+
+
     public static boolean setup(){
         try {
 
@@ -237,7 +240,7 @@ public class StoreData {
             if (!TableExists()) {
 
                 //Creating a rep table
-                String createTableSQL = "CREATE TABLE " + REP_TABLE_NAME + " (" + PK_COLUMN + " int NOT NULL AUTO_INCREMENT, " + REPNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + COMMISSION_COLUMN + " double, " + RATE_COLUMN + " double, PRIMARY KEY(" + PK_COLUMN + "))";
+                String createTableSQL = "CREATE TABLE IF NOT EXISTS " + REP_TABLE_NAME + " (" + PK_COLUMN + " int NOT NULL AUTO_INCREMENT, " + REPNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + COMMISSION_COLUMN + " double, " + RATE_COLUMN + " double, PRIMARY KEY(" + PK_COLUMN + "))";
                 System.out.println(createTableSQL);
                 statement.executeUpdate(createTableSQL);
 
@@ -253,7 +256,7 @@ public class StoreData {
                 statement.executeUpdate(addDataSQL);
 
                 //Creating a customer table
-                String createCustTable = "CREATE TABLE " + CUSTOMER_TABLE + " (" + CU_PK + " int NOT NULL AUTO_INCREMENT, " + CUSTNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + BALANCE_COLUMN + " double," + PK_COLUMN + " int, PRIMARY KEY(" + CU_PK + "))";
+                String createCustTable = "CREATE TABLE IF NOT EXISTS " + CUSTOMER_TABLE + " (" + CU_PK + " int NOT NULL AUTO_INCREMENT, " + CUSTNAME_COLUMN + " varchar(50), " + STREET_COLUMN + " varchar(50), " + CITY_COLUMN + " varchar(10)," + STATE_COLUMN + " varchar(10)," + POSTALCODE_COLUMN + " varchar(10)," + BALANCE_COLUMN + " double," + PK_COLUMN + " int, PRIMARY KEY(" + CU_PK + "))";
                 System.out.println(createCustTable);
                 statement.executeUpdate(createCustTable);
 
@@ -276,7 +279,7 @@ public class StoreData {
 
 
                 //Creating an Item Table
-                String createItemTable = "CREATE TABLE " + ITEM_TABLE + " (" + ITEM_PK + " int NOT NULL AUTO_INCREMENT, " + DESC_COLUMN + " varchar(50), " + ONHAND_COLUMN + " int, " + CATEGORY_COLUMN + " varchar(10)," + PRICE_COLUMN + " double, PRIMARY KEY(" + ITEM_PK + "))";
+                String createItemTable = "CREATE TABLE IF NOT EXISTS " + ITEM_TABLE + " (" + ITEM_PK + " int NOT NULL AUTO_INCREMENT, " + DESC_COLUMN + " varchar(50), " + ONHAND_COLUMN + " int, " + CATEGORY_COLUMN + " varchar(10)," + PRICE_COLUMN + " double, PRIMARY KEY(" + ITEM_PK + "))";
                 System.out.println(createItemTable);
                 statement.executeUpdate(createItemTable);
 
@@ -313,7 +316,7 @@ public class StoreData {
 
 
                 //Creating Order table
-                String createOrderTable = "CREATE TABLE " + ORDER_TABLE + " (" + OD_PK + " int NOT NULL AUTO_INCREMENT, " + ITEM_PK + " int," + DATE_COLUMN + " DATE , " + NUM_ORDERED_COLUMN + " int, " + CU_PK + " int," + TOTAL_COLUMN + " double, PRIMARY KEY(" + OD_PK + "))";
+                String createOrderTable = "CREATE TABLE IF NOT EXISTS " + ORDER_TABLE + " (" + OD_PK + " int NOT NULL AUTO_INCREMENT, " + ITEM_PK + " int," + DATE_COLUMN + " DATE , " + NUM_ORDERED_COLUMN + " int, " + CU_PK + " int," + TOTAL_COLUMN + " double, PRIMARY KEY(" + OD_PK + "))";
                 System.out.println(createOrderTable);
                 statement.executeUpdate(createOrderTable);
 
