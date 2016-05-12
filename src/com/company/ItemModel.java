@@ -41,17 +41,16 @@ public class ItemModel extends AbstractTableModel{
     private void countRows() {
         rowCountItem = 0;
         try {
-            //Move cursor to the start...
+            //Moving cursor to the start
             resultSetItem.beforeFirst();
-            // next() method moves the cursor forward one row and returns true if there is another row ahead
-            while (resultSetItem.next()) {
+            //then move it forward
+            while (resultSetItem.next()){
                 rowCountItem++;
-
             }
             resultSetItem.beforeFirst();
 
-        } catch (SQLException se) {
-            System.out.println("Error counting rows " + se);
+        } catch (SQLException dd){
+            System.out.println("error counting rows");
         }
 
     }
@@ -69,19 +68,17 @@ public class ItemModel extends AbstractTableModel{
     @Override
     public Object getValueAt(int row, int col){
         try{
-            //  System.out.println("get value at, row = " +row);
             resultSetItem.absolute(row+1);
-            Object o = resultSetItem.getObject(col+1);
-            return o.toString();
-        }catch (SQLException se) {
+            Object n = resultSetItem.getObject(col+1);
+            return n.toString();
+        }catch (SQLException se){
             System.out.println(se);
-            //se.printStackTrace();
+            se.printStackTrace();
             return se.toString();
-
         }
     }
 
-    //Setting up editable column in the customer table
+    //Setting up editable column in the item table
     @Override
     public boolean isCellEditable(int row, int col){
         if (col == 2 || col == 4) {
@@ -93,13 +90,13 @@ public class ItemModel extends AbstractTableModel{
     //Delete row, return true if successful, false otherwise
     public boolean deleteItem(int row){
         try {
-            resultSetItem.absolute(row + 1);
+            resultSetItem.absolute(row +1);
             resultSetItem.deleteRow();
-            //Tell table to redraw itself
+            // redraw table
             fireTableDataChanged();
             return true;
-        }catch (SQLException Cu) {
-            System.out.println("Delete row error " + Cu);
+        }catch (SQLException nn){
+            System.out.println("Delete row error" + nn);
             return false;
         }
     }

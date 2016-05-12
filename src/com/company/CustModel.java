@@ -42,17 +42,15 @@ public class CustModel extends AbstractTableModel {
     private void countRows() {
         rowCountCust = 0;
         try {
-            //Move cursor to the start...
+            //Moving cursor to the beginning
             resultSetCust.beforeFirst();
-            // next() method moves the cursor forward one row and returns true if there is another row ahead
-            while (resultSetCust.next()) {
+            //then will be moved one row up
+            while (resultSetCust.next()){
                 rowCountCust++;
-
             }
             resultSetCust.beforeFirst();
-
-        } catch (SQLException se) {
-            System.out.println("Error counting rows " + se);
+        }catch (SQLException dr){
+            System.out.println("Error counting rows" + dr);
         }
 
     }
@@ -70,15 +68,11 @@ public class CustModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int col){
         try{
-            //  System.out.println("get value at, row = " +row);
             resultSetCust.absolute(row+1);
-            Object o = resultSetCust.getObject(col+1);
-            return o.toString();
-        }catch (SQLException se) {
-            System.out.println(se);
-            //se.printStackTrace();
-            return se.toString();
-
+            Object n = resultSetCust.getObject(col+1);
+            return n.toString();
+        }catch (SQLException bu){
+            return bu.toString();
         }
     }
 
@@ -94,13 +88,13 @@ public class CustModel extends AbstractTableModel {
     //Delete row, return true if successful, false otherwise
     public boolean deleteCust(int row){
         try {
-            resultSetCust.absolute(row + 1);
+            resultSetCust.absolute(row +1);
             resultSetCust.deleteRow();
-            //Tell table to redraw itself
+            //send a redraw to the table
             fireTableDataChanged();
             return true;
-        }catch (SQLException Cu) {
-            System.out.println("Delete row error " + Cu);
+        }catch (SQLException ma){
+            System.out.println("Error deleting row" + ma);
             return false;
         }
     }

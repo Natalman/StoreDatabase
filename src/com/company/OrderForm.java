@@ -78,7 +78,7 @@ public class OrderForm extends JFrame implements WindowListener{
                 boolean insertedRow = OrderDataTableModel.insertRow(ItemNum, DateData, NumOrderData, CustNum, TotalData);
 
                 if (!insertedRow) {
-                    JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
+                    JOptionPane.showMessageDialog(rootPane, "Error adding new Order");
                 }
                 // If insertedRow is true and the data was added, it should show up in the table, so no need for confirmation message.
             }
@@ -104,7 +104,7 @@ public class OrderForm extends JFrame implements WindowListener{
                 }
                 boolean deleted = OrderDataTableModel.deleteOrder(currentRow);
                 if (deleted) {
-                    StoreData.loadAllRep();
+                    StoreData.loadOrder();
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Error deleting Rep");
                 }

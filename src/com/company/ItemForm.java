@@ -22,7 +22,7 @@ public class ItemForm extends JFrame implements WindowListener{
     private JButton deleteItemButton;
     private JButton quitButton;
 
-    ItemForm(final ItemModel DataTableModel){
+    ItemForm(final ItemModel ItemDataTableModel){
 
         setContentPane(rootPanel);
         pack();
@@ -34,7 +34,7 @@ public class ItemForm extends JFrame implements WindowListener{
 
         //Set up JTable
         ItemTable.setGridColor(Color.BLACK);
-        ItemTable.setModel(DataTableModel);
+        ItemTable.setModel(ItemDataTableModel);
 
 
         //Event handlers for add, delete and quit buttons
@@ -69,7 +69,7 @@ public class ItemForm extends JFrame implements WindowListener{
                 }
 
                 System.out.println("Adding " + DescData + " " + CategoryData + " " + PriceData + " " + OnHandData);
-                boolean insertedRow = DataTableModel.insertRow(DescData, OnHandData, CategoryData, PriceData);
+                boolean insertedRow = ItemDataTableModel.insertRow(DescData, OnHandData, CategoryData, PriceData);
 
                 if (!insertedRow) {
                     JOptionPane.showMessageDialog(rootPane, "Error adding new item");
@@ -96,9 +96,9 @@ public class ItemForm extends JFrame implements WindowListener{
                 if (currentRow == -1) {      // -1 means no row is selected. Display error message.
                     JOptionPane.showMessageDialog(rootPane, "Please choose a Rep to delete");
                 }
-                boolean deleted = DataTableModel.deleteItem(currentRow);
+                boolean deleted = ItemDataTableModel.deleteItem(currentRow);
                 if (deleted) {
-                    StoreData.loadAllRep();
+                    StoreData.loadItem();
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Error deleting movie");
                 }

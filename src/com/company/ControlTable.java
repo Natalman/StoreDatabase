@@ -30,24 +30,28 @@ public class ControlTable extends JFrame implements WindowListener{
         repTableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //create a rep table
                 RepForm RepGUI = new RepForm (StoreData.getStoreModel());
             }
         });
         customerTableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Creating a gui for the customer table
                 CustForm CustGUI = new CustForm(StoreData.getCustmodel());
             }
         });
         itemTableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Creating a gui for the item table
                 ItemForm ItemGUI = new ItemForm(StoreData.getItemModel());
             }
         });
         orderTableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Creating a gui for the order table
                 OrderForm OrderGUI = new OrderForm(StoreData.getOrderModel());
             }
         });

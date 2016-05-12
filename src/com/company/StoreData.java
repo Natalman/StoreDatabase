@@ -1,7 +1,5 @@
 package com.company;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-
 import java.sql.*;
 
 public class StoreData {
@@ -105,7 +103,7 @@ public class StoreData {
             System.exit(-1);
         }
 
-        if (!loadAllRep()) {
+        if (!loadAllRep() && !loadCust() && !loadItem() && !loadOrder()) {
             System.exit(-1);
         }
 
@@ -115,6 +113,30 @@ public class StoreData {
     }
 
     //Create or recreate a ResultSet containing the whole database, and give it to storemodel, custModel, itemModel, and orderModel
+
+    public static boolean loadCust(){
+        try {
+
+            if (rs!=null) {
+                rs.close();
+            }
+            String getCust = "SELECT * FROM " + CUSTOMER_TABLE;
+
+            rs = statement.executeQuery(getCust);
+
+            if (custmodel == null) {
+                custmodel = new CustModel(rs);
+            } else {
+                custmodel.updateResultSetCust(rs);
+            }
+            return true;
+        }catch (Exception m) {
+            System.out.println("Error loading or reloading the data");
+            System.out.println(m);
+            m.printStackTrace();
+            return false;
+        }
+    }
     public static boolean loadAllRep(){
 
         try{
@@ -125,31 +147,16 @@ public class StoreData {
 
             //Geting data from tables
             String getAllData = "SELECT * FROM " + REP_TABLE_NAME;
-            String getCust = "SELECT * FROM " + CUSTOMER_TABLE;
-            String getItem = "SELECT * FROM " + ITEM_TABLE;
-            String getOrder = "SELECT * FROM " + ORDER_TABLE;
-
             //Creating a statement for them
             rs = statement.executeQuery(getAllData);
-            rs = statement.executeQuery(getCust);
-            rs = statement.executeQuery(getItem);
-            rs = statement.executeQuery(getOrder);
 
-
-            if (storeModel == null && custmodel == null && itemModel == null && orderModel == null) {
-                //If no current dataSet, It then create them
+            if (storeModel == null ) {
+                //If no current dataSet, It then creates them
                 storeModel = new StoreModel(rs);
-                custmodel = new CustModel(rs);
-                itemModel = new ItemModel(rs);
-                orderModel = new OrderModel(rs);
             } else {
                 //Or, if they already exist, update their ResultSets.
                 storeModel.updateResultSet(rs);
-                custmodel.updateResultSetCust(rs);
-                itemModel.updateResultSetItem(rs);
-                orderModel.updateResultSetOrder(rs);
             }
-
             return true;
 
         } catch (Exception e) {
@@ -160,6 +167,53 @@ public class StoreData {
         }
 
     }
+    public static boolean loadItem(){
+        try {
+
+            if (rs != null) {
+                rs.close();
+            }
+            String getItem = "SELECT * FROM " + ITEM_TABLE;
+
+            rs = statement.executeQuery(getItem);
+
+            if (itemModel == null) {
+                itemModel = new ItemModel(rs);
+            } else {
+                itemModel.updateResultSetItem(rs);
+            }
+            return true;
+        }catch (Exception e) {
+            System.out.println("Error loading or reloading the data");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean loadOrder(){
+        try {
+
+            if (rs != null) {
+                rs.close();
+            }
+            String getOrder = "SELECT * FROM " + ORDER_TABLE;
+
+            rs = statement.executeQuery(getOrder);
+
+            if (orderModel == null) {
+                orderModel = new OrderModel(rs);
+            } else {
+                orderModel.updateResultSetOrder(rs);
+            }
+            return true;
+        }catch (Exception e) {
+            System.out.println("Error loading or reloading the data");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public static boolean setup(){
         try {

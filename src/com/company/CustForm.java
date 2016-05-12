@@ -24,7 +24,7 @@ public class CustForm extends JFrame implements WindowListener{
     private JButton quitButton;
     private JTextField RepNumTextField;
 
-    CustForm(final CustModel DataTableModel){
+    CustForm(final CustModel CustDataTableModel){
 
         setContentPane(rootPanel);
         pack();
@@ -36,7 +36,7 @@ public class CustForm extends JFrame implements WindowListener{
 
         //Set up JTable
         CustTable.setGridColor(Color.BLACK);
-        CustTable.setModel(DataTableModel);
+        CustTable.setModel(CustDataTableModel);
 
 
         //Event handlers for add, delete and quit buttons
@@ -89,10 +89,10 @@ public class CustForm extends JFrame implements WindowListener{
                 }
 
                 System.out.println("Adding " + NameData + " " + StreetData + " " + CityData + " " + StateData + " " + PostalCodeData + " " + BalanceData + " " + RepNum);
-                boolean insertedRow = DataTableModel.insertRow(NameData, StreetData, CityData, StateData, PostalCodeData, BalanceData,RepNum);
+                boolean insertedRow = CustDataTableModel.insertRow(NameData, StreetData, CityData, StateData, PostalCodeData, BalanceData,RepNum);
 
                 if (!insertedRow) {
-                    JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
+                    JOptionPane.showMessageDialog(rootPane, "Error adding new Customer");
                 }
                 // If insertedRow is true and the data was added, it should show up in the table, so no need for confirmation message.
             }
@@ -116,9 +116,9 @@ public class CustForm extends JFrame implements WindowListener{
                 if (currentRow == -1) {      // -1 means no row is selected. Display error message.
                     JOptionPane.showMessageDialog(rootPane, "Please choose a Rep to delete");
                 }
-                boolean deleted = DataTableModel.deleteCust(currentRow);
+                boolean deleted = CustDataTableModel.deleteCust(currentRow);
                 if (deleted) {
-                    StoreData.loadAllRep();
+                    StoreData.loadCust();
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Error deleting Customer Record");
                 }

@@ -92,7 +92,7 @@ public class RepForm extends JFrame implements WindowListener{
                 boolean insertedRow = DataTableModel.insertRow(NameData, StreetData, CityData, StateData, PostalCodeData, CommissionData, RateData);
 
                 if (!insertedRow) {
-                    JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
+                    JOptionPane.showMessageDialog(rootPane, "Error adding new rep");
                 }
                 // If insertedRow is true and the data was added, it should show up in the table, so no need for confirmation message.
             }
