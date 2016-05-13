@@ -29,7 +29,7 @@ public class ItemForm extends JFrame implements WindowListener{
         setTitle(" Item Table");
         addWindowListener(this);
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
         //Set up JTable
@@ -83,8 +83,8 @@ public class ItemForm extends JFrame implements WindowListener{
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                closeWindow();
+                StoreData.shutdown();
+                //closeWindow();
             }
         });
 
@@ -107,7 +107,7 @@ public class ItemForm extends JFrame implements WindowListener{
     }
     //This is use so that when we close the window it does not close the whole application but only this window
     public void closeWindow() {
-        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        //this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
     //windowListener methods. Only need one of them, but are required to implement the others anyway

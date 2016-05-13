@@ -179,43 +179,6 @@ public class StoreData {
     }
 
 
-    public static StoreModel getStoreModel() {
-        return storeModel;
-    }
-
-    public static void setStoreModel(StoreModel storeModel) {
-        StoreData.storeModel = storeModel;
-    }
-
-
-
-    public static CustModel getCustmodel() {
-        return custmodel;
-    }
-
-    public static void setCustmodel(CustModel custmodel) {
-        StoreData.custmodel = custmodel;
-    }
-
-
-
-    public static ItemModel getItemModel() {
-        return itemModel;
-    }
-
-    public static void setItemModel(ItemModel itemModel) {
-        StoreData.itemModel = itemModel;
-    }
-
-
-
-    public static OrderModel getOrderModel() {
-        return orderModel;
-    }
-
-    public static void setOrderModel(OrderModel orderModel) {
-        StoreData.orderModel = orderModel;
-    }
 
 
 
@@ -374,4 +337,42 @@ public class StoreData {
             se.printStackTrace();
         }
     }
+    public static StoreModel getStoreModel() {
+        return storeModel;
+    }
+
+    public static void setStoreModel(StoreModel storeModel) {
+        StoreData.storeModel = storeModel;
+    }
+
+
+
+    public static CustModel getCustmodel() {
+        return custmodel;
+    }
+
+    public static void setCustmodel(CustModel custmodel) {
+        StoreData.custmodel = custmodel;
+    }
+
+
+
+    public static ItemModel getItemModel() {
+        return itemModel;
+    }
+
+    public static void setItemModel(ItemModel itemModel) {
+        StoreData.itemModel = itemModel;
+    }
+
+
+
+    public static OrderModel getOrderModel() {
+        return orderModel;
+    }
+
+    public static void setOrderModel(OrderModel orderModel) {
+        StoreData.orderModel = orderModel;
+    }
+
 }
